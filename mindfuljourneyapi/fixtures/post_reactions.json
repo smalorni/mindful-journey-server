@@ -1,0 +1,47 @@
+[
+    {
+        "model": "mindfuljourneyapi.postreaction",
+        "pk": 1,
+        "fields": {
+            "emoji": "🧘‍♀️",
+            "meditator": 2,
+            "post": 3
+        }
+    },
+    {
+        "model": "mindfuljourneyapi.postreaction",
+        "pk": 2,
+        "fields": {
+            "emoji": "👍",
+            "meditator": 3,
+            "post": 1
+        }
+    },
+    {
+        "model": "mindfuljourneyapi.postreaction",
+        "pk": 3,
+        "fields": {
+            "emoji": "😍",
+            "meditator": 1,
+            "post": 1
+        }
+    },
+    {
+        "model": "mindfuljourneyapi.postreaction",
+        "pk": 4,
+        "fields": {
+            "emoji": "😡",
+            "meditator": 1,
+            "post": 2  
+        }
+    },
+    {
+        "model": "mindfuljourneyapi.postreaction",
+        "pk": 4,
+        "fields": {
+            "emoji": "😆",
+            "meditator": 3,
+            "post": 3
+        }
+    }
+]

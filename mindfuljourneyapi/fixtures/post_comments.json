@@ -1,0 +1,32 @@
+[
+    {
+        "model": "mindfuljourneyapi.postcomment",
+        "pk": 1,
+        "fields": {
+            "comment": "This is insightful. Thank you for sharing!",
+            "created_on": "2022-09-05",
+            "meditator": 1,
+            "post": 1
+        }
+    },
+    {
+        "model": "mindfuljourneyapi.postcomment",
+        "pk": 2,
+        "fields": {
+            "comment": "I would have to respectfully disagree with you. Research have shown that you do have some control around you but it's how you handle the situation.",
+            "created_on": "2022-09-07",
+            "meditator": 2,
+            "post": 3
+        }
+    },
+    {
+        "model": "mindfuljourneyapi.postcomment",
+        "pk": 2,
+        "fields": {
+            "comment": "💪 You got this! We are all thriving in our ways!",
+            "created_on": "2022-09-09",
+            "meditator": 3,
+            "post": 2
+        }
+    }
+]

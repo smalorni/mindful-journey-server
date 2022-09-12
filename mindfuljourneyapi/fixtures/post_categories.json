@@ -1,0 +1,51 @@
+[
+    {
+        "model": "mindfuljourneyapi.postcategory",
+        "pk": 1,
+        "fields":  {
+            "name": "Motivation"
+        } 
+    },
+    {
+        "model": "mindfuljourneyapi.postcategory",
+        "pk": 2,
+        "fields":  {
+            "name": "Meditation"
+        } 
+    },
+    {
+        "model": "mindfuljourneyapi.postcategory",
+        "pk": 3,
+        "fields":  {
+            "name": "Yoga"
+        } 
+    },
+    {
+        "model": "mindfuljourneyapi.postcategory",
+        "pk": 4,
+        "fields":  {
+            "name": "Positivity"
+        } 
+    },
+    {
+        "model": "mindfuljourneyapi.postcategory",
+        "pk": 5,
+        "fields":  {
+            "name": "Mental Health"
+        } 
+    },
+    {
+        "model": "mindfuljourneyapi.postcategory",
+        "pk": 3,
+        "fields":  {
+            "name": "Spiritual"
+        } 
+    },
+    {
+        "model": "mindfuljourneyapi.postcategory",
+        "pk": 3,
+        "fields":  {
+            "name": "Social"
+        } 
+    }
+]

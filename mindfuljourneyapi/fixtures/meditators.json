@@ -1,0 +1,32 @@
+[
+    {
+        "model": "mindfuljourneyapi.meditator",
+        "pk": 1,
+        "fields": {
+            "bio": "I've been a yoga instructor for 10 years in Colorado. I am a strong believer that mind, body and soul is all intertwined and wants to help others to find peace within themselves.",
+            "location": "Denver, Colorado",
+            "profile_image_url": "",
+            "user": 1
+        }
+    },
+    {
+        "model": "mindfuljourneyapi.meditator",
+        "pk": 2,
+        "fields": {
+            "bio": "I specialized in mindfulness, mantra and transcendental meditation. I host retreats at Moon.",
+            "location": "Sante Fe, New Mexico",
+            "profile_image_url": "",
+            "user": 2
+        }
+    },
+    {
+        "model": "mindfuljourneyapi.meditator",
+        "pk": 3,
+        "fields": {
+            "bio": "I battled with depression and anxiety for most of my life. My therapist recommended to try mindful meditation to challenge myself.",
+            "location": "Cleveland, Ohio",
+            "profile_image_url": "",
+            "user": 3
+        }
+    }
+]

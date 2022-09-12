@@ -1,0 +1,35 @@
+[
+    {
+        "model": "mindfuljourneyapi.post",
+        "pk": "1",
+        "fields": {
+            "content": "Mindfulness is not something special or limited to Buddhists, mystics, academics or psychologists. This is a simple process that any human being can undertake. Mindfulness is not always an easy thing to do, particularly if you have never undergo this experience before or if you are going through intense pain or strong emotions. The techniques required to cultivate greater mindfulness are incredibly simple if you take the time to give your all. As time progresses, mindfulness becomes easier to develop and being in the present moment becomes as much of a habit as our normal state of distractedness. Namaste!",
+            "created_on": "2022-09-01",
+            "post_image_url": "",
+            "category": 1,
+            "meditator": 1 
+        }
+    },
+    {
+        "model": "mindfuljourneyapi.post",
+        "pk": "2",
+        "fields": {
+            "content": "Set big goals, fail, pick up the pieces and each time you’ll be mastering complexity, so when the next wave of disruption comes, you’re cresting on top not flailing below. The goal isn’t the point, your pursuit is. No matter how chaotic life becomes, appreciate the small rewards and be in the present moment.",
+            "created_on": "2022-09-02",
+            "post_image_url": "",
+            "category": 2,
+            "meditator": 2
+        }
+    },
+    {
+        "model": "mindfuljourneyapi.post",
+        "pk": "3",
+        "fields": {
+            "content": "You can't control the world around you but you can control the world within you through Yoga.",
+            "created_on": "2022-09-03",
+            "post_image_url": "",
+            "meditator": 3,
+            "category": 3
+        }
+    }
+]

@@ -1,0 +1,30 @@
+[
+    {
+        "model": "mindfuljourneyapi.activitylevel",
+        "pk": 1,
+        "fields": {
+            "rating": 1
+        }
+    },
+    {
+        "model": "mindfuljourneyapi.activitylevel",
+        "pk": 2,
+        "fields": {
+            "rating": 2
+        }
+    },
+    {
+        "model": "mindfuljourneyapi.activitylevel",
+        "pk": 3,
+        "fields": {
+            "rating": 3
+        }
+    },
+    {
+        "model": "mindfuljourneyapi.activitylevel",
+        "pk":4,
+        "fields": {
+            "rating": 4
+        }
+    }
+]
