@@ -6,6 +6,7 @@ from rest_framework import serializers, status
 from mindfuljourneyapi.models import PostCategory
 
 # Goal: list of categories will appear in a dropdown menu while creating a post, user can select a category
+# Since it will be a drop down menu, don't need additional functions
 # Create class
 class PostCategoryView(ViewSet):
     """Mindful Journey PostCategory View"""

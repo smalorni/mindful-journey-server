@@ -16,16 +16,21 @@ Including another URLconf
 from xml.etree.ElementInclude import include
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls.static import static
 from django.conf.urls import include
 from rest_framework import routers
-#from mindfuljourneyapi import PostView
+from django.conf import settings
+from mindfuljourneyapi.views import PostView, register_user, login_user
 
 router = routers.DefaultRouter(trailing_slash=False)
 # route for post
-#router.register(r'posts', PostView, 'post')
+router.register(r'posts', PostView, 'post')
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('register', register_user),
+    # Requests to http://localhost:8000/login will be routed to the login_user function
+    path('login', login_user),
     path('', include(router.urls)),
-]
+    ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

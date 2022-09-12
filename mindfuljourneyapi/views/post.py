@@ -1,8 +1,9 @@
+from unicodedata import category
 from django.http import HttpResponseServerError
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
-from mindfuljourneyapi.models import Meditator, Category, Post
+from mindfuljourneyapi.models import Meditator, Post
 from mindfuljourneyapi.models.post_category import PostCategory
 import uuid, base64
 from django.core.files.base import ContentFile
@@ -23,7 +24,9 @@ class PostView(ViewSet):
         user = self.request.query_params.get('user', None)
 
         if category is not None:
-            posts = posts.filter(category=category)
+            posts = posts.filter(category_id=category)
+        if user is not None:
+            posts = posts.filter(user_id=user)
         # Add tags - stretch goals
         # Add user - maybe?
 
@@ -37,7 +40,7 @@ class PostView(ViewSet):
         """
         try: 
             post = Post.objects.get(pk=pk)
-            user = Meditator.objects.get(user=request.auth.user) #user or meditator? 
+            user = Meditator.objects.get(user=request.auth.user) #user
             serializer = PostSerializer(post)
             return Response(serializer.data)
         except Post.DoesNotExist as ex: 
@@ -62,11 +65,38 @@ class PostView(ViewSet):
 
         post = Post.objects.create(
             user = user,
-            category = category
+            category = category,
+            content = request.data['content'],
+            created_on = request.data['created_on'],
+            post_image_url = request.data['post_image_url']
         )
 
+        # Add tags and reactions here later
+        serializer = PostSerializer(post)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+    # Update post
+    def update(self, request, pk):
+        """Handle PUT requests for a post
+        Returns:
+            Response -- 204 status code"""
+        post = Post.objects.get(pk=pk)
+        category = PostCategory.objects.get(pk=request.data['categoryId'])
+        post.category = category
+        post.content = request.data['content']
+        post.created_on = request.data['created_on']
+        post.post_image_url = request.data['post_image_url']
 
+        # Save information
+        post.save()
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
+
+    # Delete post
+    def destroy(self, request, pk):
+        post = Post.objects.get(pk=pk)
+        #deletes post
+        post.delete()
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
     
 #Create class for serializer
 class PostSerializer(serializers.ModelSerializer):
@@ -74,3 +104,4 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('id', 'meditator', 'category', 'content', 'created_on', "post_image_url")
+        depth = 2
