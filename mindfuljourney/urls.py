@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from multiprocessing import Event
 from xml.etree.ElementInclude import include
 from django.contrib import admin
 from django.urls import path
@@ -20,11 +21,12 @@ from django.conf.urls.static import static
 from django.conf.urls import include
 from rest_framework import routers
 from django.conf import settings
-from mindfuljourneyapi.views import PostView, register_user, login_user
+from mindfuljourneyapi.views import PostView, register_user, login_user, EventView
 
 router = routers.DefaultRouter(trailing_slash=False)
 # route for post
 router.register(r'posts', PostView, 'post')
+router.register(r'events', EventView, 'events')
 
 
 urlpatterns = [

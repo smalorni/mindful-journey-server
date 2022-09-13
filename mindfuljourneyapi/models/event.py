@@ -7,7 +7,7 @@ class Event(models.Model):
     date = models.DateField()
     host = models.CharField(max_length=100)
     description = models.TextField(max_length=250)
-    price = models.DecimalField(max_digits=10, decimal_places=4)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     event_image_url = models.ImageField(
         upload_to='eventImage', height_field=None,
         width_field=None, max_length=None, null=True)
