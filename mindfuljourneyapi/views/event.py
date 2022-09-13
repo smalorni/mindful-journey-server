@@ -46,20 +46,19 @@ class EventView(ViewSet):
         Returns:
             Response -- JSON serialized post instance
         """
-        user = Meditator.objects.get(user=request.auth.user)
-        event = Event.objects.get(pk=request.data['event'])
+        meditator = Meditator.objects.get(user=request.auth.user)
         activity_level = ActivityLevel.objects.get(pk=request.data['activity_level'])
     
     # Add header image for event here
-        format, imgstr = request.data["event_image_url"].split(';base64,')
-        ext = format.split('/')[-1]
-        data = ContentFile(base64.b64decode(imgstr), name=f'{request.data["event_id"]}-{uuid.uuid4()}.{ext}')
+        # format, imgstr = request.data["event_image_url"].split(';base64,')
+        # ext = format.split('/')[-1]
+        # data = ContentFile(base64.b64decode(imgstr), name=f'{request.data["event_id"]}-{uuid.uuid4()}.{ext}')
 
-        user.event_image_url = data
-        user.save()
+        # user.event_image_url = data
+        # user.save()
 
         event = Event.objects.create(
-            user = user,
+            meditator = meditator,
             name = request.data['name'],
             location = request.data['location'],
             date = request.data['date'],
@@ -95,7 +94,7 @@ class EventView(ViewSet):
         event.save()
         return Response(None, status=status.HTTP_204_NO_CONTENT)
 
-    # Delete post
+    # Delete event
     def destroy(self, request, pk):
         event = Event.objects.get(pk=pk)
         #deletes event
@@ -108,5 +107,5 @@ class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ('id', 'meditator', 'name', 'location', 'date', 'host', 'description', 'price', 'event_image_url', 'activity_level')
-        depth = 2
+        #depth = 2
 

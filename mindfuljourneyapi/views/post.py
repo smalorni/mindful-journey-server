@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from rest_framework import serializers, status
 from mindfuljourneyapi.models import Meditator, Post
 from mindfuljourneyapi.models.post_category import PostCategory
-import uuid, base64
-from django.core.files.base import ContentFile
+#import uuid, base64
+#from django.core.files.base import ContentFile
 
 # Goal: User can view a list of posts, create a post, update a post and delete a post
 # Create a class
@@ -40,7 +40,7 @@ class PostView(ViewSet):
         """
         try: 
             post = Post.objects.get(pk=pk)
-            user = Meditator.objects.get(user=request.auth.user) #user
+            meditator = Meditator.objects.get(user=request.auth.user) #user
             serializer = PostSerializer(post)
             return Response(serializer.data)
         except Post.DoesNotExist as ex: 
@@ -52,19 +52,19 @@ class PostView(ViewSet):
         Returns:
             Response -- JSON serialized post instance
         """
-        user = Meditator.objects.get(user=request.auth.user)
+        meditator = Meditator.objects.get(user=request.auth.user)
         category = PostCategory.objects.get(pk=request.data['category'])
     
     # Add header image for post here
-        format, imgstr = request.data["post_image_url"].split(';base64,')
-        ext = format.split('/')[-1]
-        data = ContentFile(base64.b64decode(imgstr), name=f'{request.data["post_id"]}-{uuid.uuid4()}.{ext}')
+        # format, imgstr = request.data["post_image_url"].split(';base64,')
+        # ext = format.split('/')[-1]
+        # data = ContentFile(base64.b64decode(imgstr), name=f'{request.data["post_id"]}-{uuid.uuid4()}.{ext}')
 
-        user.post_image_url = data
-        user.save()
+        # user.post_image_url = data
+        # user.save()
 
         post = Post.objects.create(
-            user = user,
+            meditator = meditator,
             category = category,
             content = request.data['content'],
             created_on = request.data['created_on'],
@@ -81,7 +81,7 @@ class PostView(ViewSet):
         Returns:
             Response -- 204 status code"""
         post = Post.objects.get(pk=pk)
-        category = PostCategory.objects.get(pk=request.data['categoryId'])
+        category = PostCategory.objects.get(pk=request.data['category'])
         post.category = category
         post.content = request.data['content']
         post.created_on = request.data['created_on']
@@ -104,4 +104,4 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('id', 'meditator', 'category', 'content', 'created_on', 'post_image_url')
-        depth = 2
+        #depth = 2
