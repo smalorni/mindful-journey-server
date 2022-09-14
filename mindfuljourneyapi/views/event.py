@@ -34,7 +34,7 @@ class EventView(ViewSet):
         """
         try: 
             event = Event.objects.get(pk=pk)
-            user = Meditator.objects.get(user=request.auth.user) #user
+            meditator = Meditator.objects.get(user=request.auth.user) #user
             serializer = EventSerializer(event)
             return Response(serializer.data)
         except Event.DoesNotExist as ex: 
@@ -50,12 +50,10 @@ class EventView(ViewSet):
         activity_level = ActivityLevel.objects.get(pk=request.data['activity_level'])
     
     # Add header image for event here
-        # format, imgstr = request.data["event_image_url"].split(';base64,')
-        # ext = format.split('/')[-1]
-        # data = ContentFile(base64.b64decode(imgstr), name=f'{request.data["event_id"]}-{uuid.uuid4()}.{ext}')
+        format, imgstr = request.data["event_image_url"].split(';base64,')
+        ext = format.split('/')[-1]
+        data = ContentFile(base64.b64decode(imgstr), name=f'{uuid.uuid4()}.{ext}')
 
-        # user.event_image_url = data
-        # user.save()
 
         event = Event.objects.create(
             meditator = meditator,
@@ -65,7 +63,7 @@ class EventView(ViewSet):
             host = request.data['host'],
             description = request.data['description'],
             price = request.data['price'],
-            event_image_url = request.data['event_image_url'],
+            event_image_url = data,
             activity_level = activity_level
         )
 
@@ -79,6 +77,12 @@ class EventView(ViewSet):
         """Handle PUT requests for a event
         Returns:
             Response -- 204 status code"""
+
+        # Need to include info for url
+        format, imgstr = request.data["event_image_url"].split(';base64,')
+        ext = format.split('/')[-1]
+        data = ContentFile(base64.b64decode(imgstr), name=f'{uuid.uuid4()}.{ext}')
+
         event = Event.objects.get(pk=pk)
         activity_level = ActivityLevel.objects.get(pk=request.data['activity_level'])
         event.name = request.data['name']
@@ -87,7 +91,7 @@ class EventView(ViewSet):
         event.host = request.data['host']
         event.description = request.data['description']
         event.price = request.data['price']
-        event.event_image_url = request.data['event_image_url']
+        event.event_image_url = data #matches above
         event.activity_level = activity_level
 
         # Save information
