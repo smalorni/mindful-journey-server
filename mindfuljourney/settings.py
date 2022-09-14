@@ -30,6 +30,9 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+# Application definition
+MEDIA_ROOT = 'media'
+MEDIA_URL = '/media/'
 
 INSTALLED_APPS = [
     'django.contrib.admin',

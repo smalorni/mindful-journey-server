@@ -79,12 +79,18 @@ class PostView(ViewSet):
         """Handle PUT requests for a post
         Returns:
             Response -- 204 status code"""
+
+        # Need to include info for url
+        format, imgstr = request.data["post_image_url"].split(';base64,')
+        ext = format.split('/')[-1]
+        data = ContentFile(base64.b64decode(imgstr), name=f'{uuid.uuid4()}.{ext}')
+
         post = Post.objects.get(pk=pk)
         category = PostCategory.objects.get(pk=request.data['category'])
         post.category = category
         post.title = request.data['title']
         post.content = request.data['content']
-        post.post_image_url = request.data['post_image_url']
+        post.post_image_url = data
         post.created_on = datetime.date.today()
 
         # Save information
