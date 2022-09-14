@@ -5,8 +5,9 @@ from rest_framework.response import Response
 from rest_framework import serializers, status
 from mindfuljourneyapi.models import Meditator, Post
 from mindfuljourneyapi.models.post_category import PostCategory
-#import uuid, base64
-#from django.core.files.base import ContentFile
+import uuid, base64
+from django.core.files.base import ContentFile
+import datetime
 
 # Goal: User can view a list of posts, create a post, update a post and delete a post
 # Create a class
@@ -56,19 +57,17 @@ class PostView(ViewSet):
         category = PostCategory.objects.get(pk=request.data['category'])
     
     # Add header image for post here
-        # format, imgstr = request.data["post_image_url"].split(';base64,')
-        # ext = format.split('/')[-1]
-        # data = ContentFile(base64.b64decode(imgstr), name=f'{request.data["post_id"]}-{uuid.uuid4()}.{ext}')
-
-        # user.post_image_url = data
-        # user.save()
+        format, imgstr = request.data["post_image_url"].split(';base64,')
+        ext = format.split('/')[-1]
+        data = ContentFile(base64.b64decode(imgstr), name=f'{uuid.uuid4()}.{ext}')
 
         post = Post.objects.create(
             meditator = meditator,
             category = category,
+            title = request.data['title'],
             content = request.data['content'],
-            created_on = request.data['created_on'],
-            post_image_url = request.data['post_image_url']
+            post_image_url = data,
+            created_on = datetime.date.today()
         )
 
         # Add tags and reactions here later
@@ -83,9 +82,10 @@ class PostView(ViewSet):
         post = Post.objects.get(pk=pk)
         category = PostCategory.objects.get(pk=request.data['category'])
         post.category = category
+        post.title = request.data['title']
         post.content = request.data['content']
-        post.created_on = request.data['created_on']
         post.post_image_url = request.data['post_image_url']
+        post.created_on = datetime.date.today()
 
         # Save information
         post.save()
@@ -103,5 +103,6 @@ class PostSerializer(serializers.ModelSerializer):
     """JSON serializer for posts"""
     class Meta:
         model = Post
-        fields = ('id', 'meditator', 'category', 'content', 'created_on', 'post_image_url')
-        #depth = 2
+        fields = ('id', 'meditator', 'category', 'title', 'content', 'created_on', 'post_image_url')
+        #Need to leave depth in for react to loop through meditator/user's name
+        depth = 2

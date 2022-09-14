@@ -5,6 +5,7 @@ class Post(models.Model):
     # Specific row will be deleted for on_delete
     meditator = models.ForeignKey("Meditator", on_delete=models.CASCADE, related_name="posts")
     category = models.ForeignKey("PostCategory", on_delete=models.CASCADE, related_name="posts")
+    title = models.CharField(max_length=30, default="null")
     content = models.CharField(max_length=250)
     created_on = models.DateField()
     post_image_url = models.ImageField(
