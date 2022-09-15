@@ -88,8 +88,8 @@ class EventView(ViewSet):
         activity_level = ActivityLevel.objects.get(pk=request.data['activity_level'])
         event.name = request.data['name']
         event.location = request.data['location']
-        event.start_date = request.data['start_date'],
-        event.end_date = request.data['end_date'],
+        event.start_date = request.data['start_date']
+        event.end_date = request.data['end_date']
         event.host = request.data['host']
         event.description = request.data['description']
         event.price = request.data['price']
