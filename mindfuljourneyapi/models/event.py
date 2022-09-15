@@ -4,7 +4,8 @@ from django.db import models
 class Event(models.Model):
     name = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
-    date = models.DateField()
+    start_date = models.DateField()
+    end_date = models.DateField()
     host = models.CharField(max_length=100)
     description = models.TextField(max_length=250)
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -16,3 +17,11 @@ class Event(models.Model):
     # Join tables added - many to many relationships, what table it goes through
     attendee = models.ManyToManyField("Meditator", through="EventAttendee")
     tag = models.ManyToManyField("Tag", through="EventTag")
+
+    @property
+    def readable_start_date(self):
+        return self.start_date.strftime('%m/%d/%y')
+
+    @property
+    def readable_end_date(self):
+        return self.end_date.strftime('%m/%d/%y')

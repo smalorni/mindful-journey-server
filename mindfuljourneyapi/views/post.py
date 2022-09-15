@@ -109,6 +109,6 @@ class PostSerializer(serializers.ModelSerializer):
     """JSON serializer for posts"""
     class Meta:
         model = Post
-        fields = ('id', 'meditator', 'category', 'title', 'content', 'created_on', 'post_image_url')
+        fields = ('id', 'meditator', 'category', 'title', 'content', 'created_on', 'post_image_url', 'readable_created_on')
         #Need to leave depth in for react to loop through meditator/user's name
         depth = 2

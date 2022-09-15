@@ -11,3 +11,7 @@ class Post(models.Model):
     post_image_url = models.ImageField(
         upload_to='postImage', height_field=None,
         width_field=None, max_length=None, null=True)
+
+    @property
+    def readable_created_on(self):
+        return self.created_on.strftime('%m/%d/%y')

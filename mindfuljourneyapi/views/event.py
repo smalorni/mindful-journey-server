@@ -59,7 +59,8 @@ class EventView(ViewSet):
             meditator = meditator,
             name = request.data['name'],
             location = request.data['location'],
-            date = request.data['date'],
+            start_date = request.data['start_date'],
+            end_date = request.data['end_date'],
             host = request.data['host'],
             description = request.data['description'],
             price = request.data['price'],
@@ -87,7 +88,8 @@ class EventView(ViewSet):
         activity_level = ActivityLevel.objects.get(pk=request.data['activity_level'])
         event.name = request.data['name']
         event.location = request.data['location']
-        event.date = request.data['date']
+        event.start_date = request.data['start_date'],
+        event.end_date = request.data['end_date'],
         event.host = request.data['host']
         event.description = request.data['description']
         event.price = request.data['price']
@@ -110,6 +112,6 @@ class EventSerializer(serializers.ModelSerializer):
     """JSON serializer for events"""
     class Meta:
         model = Event
-        fields = ('id', 'meditator', 'name', 'location', 'date', 'host', 'description', 'price', 'event_image_url', 'activity_level')
+        fields = ('id', 'meditator', 'name', 'location', 'start_date', 'end_date', 'host', 'description', 'price', 'event_image_url', 'activity_level', 'readable_start_date', 'readable_end_date')
         #depth = 2
 

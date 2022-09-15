@@ -5,7 +5,8 @@
         "fields": {
             "name": "Bondhi Wellness Retreat",
             "location": "Colorado Springs, Colorado",
-            "date": "2023-04-01",
+            "start_date": "2023-04-01",
+            "end_date": "2023-04-07",
             "host": "Jennifer Westfall",
             "description": "7-day wellness retreat for couples in beautiful nature. We will practicing a variety of meditation types, yoga on the top of the mountain, spa services and a chance to socialize with other couples.",
             "price": 1011.00,
@@ -21,7 +22,8 @@
         "fields": {
             "name": "Soulful Yoga Retreat",
             "location": "San Diego, California",
-            "date": "2022-12-11",
+            "start_date": "2022-12-11",
+            "end_date": "2022-12-15",
             "host": "Jayden Rourke",
             "description": "5-day yoga retreat. All are welcome to join. We have yoga three times a day. All meals and lodging are included.",
             "price": 600.00,
@@ -38,7 +40,8 @@
         "fields": {
             "name": "Art & Meditation Weekend Retreat",
             "location": "Colorado Springs, Colorado",
-            "date": "2022-11-16",
+            "start_date": "2022-11-16",
+            "end_date": "2022-11-17",
             "host": "Hannah Cross",
             "description": "2-day retreat for art lovers who want to combine art and meditation.",
             "price": 399.99,
