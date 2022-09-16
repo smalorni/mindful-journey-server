@@ -25,3 +25,11 @@ class Event(models.Model):
     @property
     def readable_end_date(self):
         return self.end_date.strftime('%m/%d/%y')
+
+    @property
+    def attending(self):
+        return self.__attending
+    
+    @attending.setter
+    def attending(self, value):
+        self.__attending = value

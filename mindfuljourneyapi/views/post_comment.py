@@ -9,17 +9,17 @@ import datetime
 class PostCommentView(ViewSet):
     """Post Comment View"""
 
-    def list(self, request): 
-        """Handles GET requests to get all comments
-        Returns:
-            Response -- JSON serialized list of post comments"""
+    # def list(self, request): 
+    #     """Handles GET requests to get all comments
+    #     Returns:
+    #         Response -- JSON serialized list of post comments"""
     
-        postComments = PostComment.objects.all().order_by("created_on")
-        post = request.query_params.get('post', None)
-        if post is not None:
-            postComments = postComments.filter(post_id = post)
-        serializer = PostCommentSerializer(postComments, many = True)
-        return Response(serializer.data)
+    #     postComments = PostComment.objects.all().order_by("created_on")
+    #     post = request.query_params.get('post', None)
+    #     if post is not None:
+    #         postComments = postComments.filter(post_id = post)
+    #     serializer = PostCommentSerializer(postComments, many = True)
+    #     return Response(serializer.data)
     
     def retrieve(self, request, pk):
         """Handle GET requests for single post comment
@@ -38,12 +38,11 @@ class PostCommentView(ViewSet):
 
         # Foreign Keys
         post = Post.objects.get(pk=request.data["post"]) # Check client's side
-        meditator = Meditator.objects.get(user=request.auth.user)
         
         postComment = PostComment.objects.create(
             #model #client
             post = post,
-            meditator = meditator,
+            meditator = request.auth.user,
             comment = request.data["comment"],
             created_on = datetime.date.today()
         )
@@ -54,10 +53,9 @@ class PostCommentView(ViewSet):
     def update(self, request, pk):
         """Handle PUT requests for post comment"""
 
-        meditator = Meditator.objects.get(user=request.auth.user)
         
         postComment = PostComment.objects.get(pk=pk)
-        postComment.meditator = meditator
+        postComment.meditator = request.auth.user
         
         postComment.comment = request.data["comment"]
 
@@ -75,5 +73,5 @@ class PostCommentSerializer(serializers.ModelSerializer):
     """JSON serializer for comments"""
     class Meta:
         model = PostComment
-        fields = ('id', 'meditator', 'post', 'comment','created_on')
+        fields = ('id', 'meditator', 'post', 'comment','created_on', 'readablePostComment_created_on')
         #depth = 2

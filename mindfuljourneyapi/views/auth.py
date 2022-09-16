@@ -1,3 +1,4 @@
+import email
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
@@ -10,7 +11,6 @@ from mindfuljourneyapi.models import Meditator
 @permission_classes([AllowAny])
 def login_user(request):
     '''Handles the authentication of a user
-
     Method arguments:
       request -- The full HTTP request object
     '''
@@ -47,22 +47,23 @@ def register_user(request):
     # Create a new user by invoking the `create_user` helper method
     # on Django's built-in User model
     new_user = User.objects.create_user(
-        username=request.data['username'],
-        password=request.data['password'],
         first_name=request.data['first_name'],
-        last_name=request.data['last_name']
+        last_name=request.data['last_name'],
+        email=request.data['email'],
+        username=request.data['username'],
+        password=request.data['password']
     )
 
-    # Now save the extra info in the mindfuljourneyapi_meditator table
-    meditator = Meditator.objects.create(
-        bio=request.data['bio'],
-        location=request.data['location'],
-        profile_image_url=request.data['profile_image_url'],
-        user=new_user
-    )
+    # # Now save the extra info in the mindfuljourneyapi_meditator table
+    # meditator = Meditator.objects.create(
+    #     bio=request.data['bio'],
+    #     location=request.data['location'],
+    #     profile_image_url=request.data['profile_image_url'],
+    #     user=new_user
+    # )
 
     # Use the REST Framework's token generator on the new user account
-    token = Token.objects.create(user=meditator.user)
+    token = Token.objects.create(user=new_user)
     # Return the token to the client
     data = { 'token': token.key }
     return Response(data)

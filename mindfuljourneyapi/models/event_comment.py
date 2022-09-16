@@ -9,3 +9,7 @@ class EventComment(models.Model):
     event = models.ForeignKey("Event", on_delete=models.CASCADE, related_name="event_comments")
     comment = models.CharField(max_length=250)
     created_on = models.DateField()
+
+    @property
+    def readableEventComment_created_on(self):
+        return self.created_on.strftime('%m/%d/%y')

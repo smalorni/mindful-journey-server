@@ -76,5 +76,5 @@ class EventCommentSerializer(serializers.ModelSerializer):
     """JSON serializer for comments"""
     class Meta:
         model = EventComment
-        fields = ('id', 'meditator', 'event', 'comment','created_on')
+        fields = ('id', 'meditator', 'event', 'comment','created_on', 'readableEventComment_created_on')
         #depth = 2

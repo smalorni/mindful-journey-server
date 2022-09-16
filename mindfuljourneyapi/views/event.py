@@ -5,6 +5,7 @@ from rest_framework import serializers, status
 from mindfuljourneyapi.models import Meditator, Event, ActivityLevel
 import uuid, base64
 from django.core.files.base import ContentFile
+from rest_framework.decorators import action
 
 # Goal: view list of events, create a new event, update and delete an event
 # Create class
@@ -23,6 +24,9 @@ class EventView(ViewSet):
             events = events.filter(user_id=user)
         # Add tags - stretch goals
         # Add user - maybe?
+
+        for event in events:
+            event.attending = user in event.attendee.all()
 
         serializer = EventSerializer(events, many = True)
         return Response(serializer.data)
@@ -106,12 +110,37 @@ class EventView(ViewSet):
         #deletes event
         event.delete()
         return Response(None, status=status.HTTP_204_NO_CONTENT)
+
+    # Sign up for event - related to event manager fetch calls - use signup in the url to join event
+    @action(methods=['post'], detail=True)
+    #The new route is named after function below - add "signup" to fetch call in event manager
+    def signup(self, request, pk):
+        """Post request for a user to sign up for an event"""
+   
+        meditator = Meditator.objects.get(user=request.auth.user)
+        event = Event.objects.get(pk=pk)
+        event.attendees.add(meditator)
+        return Response({'message': 'Gamer added'}, status=status.HTTP_201_CREATED)
+    # Leave an event - related to event manager fetch calls - use leave in the url for leaving event
+    # Action turns a method into a new route
+    # Method is 'delete', detail=true returns url with a pk
+    @action(methods=['delete'], detail=True)
+    # The new route is named after function below - add "leave" to fetch call in event manager
+    def leave(self, request, pk):
+        """Delete request for a user to leave an event"""
+   
+        meditator = Meditator.objects.get(user=request.auth.user)
+        event = Event.objects.get(pk=pk)
+        # Removes gamer
+        event.attendees.remove(meditator)
+        # Message will show up in Postman
+        return Response({'message': 'Meditator removed'}, status=status.HTTP_204_NO_CONTENT)
     
 #Create class for serializer
 class EventSerializer(serializers.ModelSerializer):
     """JSON serializer for events"""
     class Meta:
         model = Event
-        fields = ('id', 'meditator', 'name', 'location', 'start_date', 'end_date', 'host', 'description', 'price', 'event_image_url', 'activity_level', 'readable_start_date', 'readable_end_date')
+        fields = ('id', 'meditator', 'name', 'location', 'start_date', 'end_date', 'host', 'description', 'price', 'event_image_url', 'activity_level', 'readable_start_date', 'readable_end_date', 'attending')
         #depth = 2
 
