@@ -117,10 +117,10 @@ class EventView(ViewSet):
     def signup(self, request, pk):
         """Post request for a user to sign up for an event"""
    
-        meditator = Meditator.objects.get(user=request.auth.user)
+        meditator = Meditator.objects.get(pk=pk)
         event = Event.objects.get(pk=pk)
-        event.attendees.add(meditator)
-        return Response({'message': 'Gamer added'}, status=status.HTTP_201_CREATED)
+        event.attendee.add(meditator)
+        return Response({'message': 'Meditator added'}, status=status.HTTP_201_CREATED)
     # Leave an event - related to event manager fetch calls - use leave in the url for leaving event
     # Action turns a method into a new route
     # Method is 'delete', detail=true returns url with a pk
@@ -129,10 +129,10 @@ class EventView(ViewSet):
     def leave(self, request, pk):
         """Delete request for a user to leave an event"""
    
-        meditator = Meditator.objects.get(user=request.auth.user)
+        meditator = Meditator.objects.get(pk=pk)
         event = Event.objects.get(pk=pk)
-        # Removes gamer
-        event.attendees.remove(meditator)
+        # Removes user
+        event.attendee.remove(meditator)
         # Message will show up in Postman
         return Response({'message': 'Meditator removed'}, status=status.HTTP_204_NO_CONTENT)
     
@@ -141,6 +141,6 @@ class EventSerializer(serializers.ModelSerializer):
     """JSON serializer for events"""
     class Meta:
         model = Event
-        fields = ('id', 'meditator', 'name', 'location', 'start_date', 'end_date', 'host', 'description', 'price', 'event_image_url', 'activity_level', 'readable_start_date', 'readable_end_date', 'attending')
+        fields = ('id', 'meditator', 'name', 'location', 'start_date', 'end_date', 'host', 'description', 'price', 'event_image_url', 'activity_level', 'readable_start_date', 'readable_end_date', 'attending', 'attendee')
         #depth = 2
 
