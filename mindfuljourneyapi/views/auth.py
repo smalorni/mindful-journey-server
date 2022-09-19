@@ -27,7 +27,8 @@ def login_user(request):
         data = {
             'valid': True,
             'token': token.key,
-            #user_id: authenticated_user.id
+            # added property for current user
+            'user_id': authenticated_user.id
         }
         return Response(data)
     else:
@@ -54,7 +55,7 @@ def register_user(request):
         password=request.data['password']
     )
 
-    # # Now save the extra info in the mindfuljourneyapi_meditator table
+    # Profile section: Now save the extra info in the mindfuljourneyapi_meditator table
     # meditator = Meditator.objects.create(
     #     bio=request.data['bio'],
     #     location=request.data['location'],
@@ -65,5 +66,6 @@ def register_user(request):
     # Use the REST Framework's token generator on the new user account
     token = Token.objects.create(user=new_user)
     # Return the token to the client
-    data = { 'token': token.key }
+    # Added current_user
+    data = { 'token': token.key, 'current_user': new_user.id }
     return Response(data)

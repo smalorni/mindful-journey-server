@@ -17,13 +17,8 @@ class EventView(ViewSet):
         Returns:
             Response -- JSON serialized list of events
         """
-        events = Event.objects.all()
-        user = self.request.query_params.get('user', None)
-
-        if user is not None:
-            events = events.filter(user_id=user)
-        # Add tags - stretch goals
-        # Add user - maybe?
+        events = Event.objects.all().order_by("start_date")
+        user = request.auth.user
 
         for event in events:
             event.attending = user in event.attendee.all()
@@ -38,7 +33,7 @@ class EventView(ViewSet):
         """
         try: 
             event = Event.objects.get(pk=pk)
-            meditator = Meditator.objects.get(user=request.auth.user) #user
+
             serializer = EventSerializer(event)
             return Response(serializer.data)
         except Event.DoesNotExist as ex: 
@@ -50,7 +45,6 @@ class EventView(ViewSet):
         Returns:
             Response -- JSON serialized post instance
         """
-        meditator = Meditator.objects.get(user=request.auth.user)
         activity_level = ActivityLevel.objects.get(pk=request.data['activity_level'])
     
     # Add header image for event here
@@ -60,7 +54,7 @@ class EventView(ViewSet):
 
 
         event = Event.objects.create(
-            meditator = meditator,
+            meditator = request.auth.user,
             name = request.data['name'],
             location = request.data['location'],
             start_date = request.data['start_date'],
@@ -84,11 +78,16 @@ class EventView(ViewSet):
             Response -- 204 status code"""
 
         # Need to include info for url
-        format, imgstr = request.data["event_image_url"].split(';base64,')
-        ext = format.split('/')[-1]
-        data = ContentFile(base64.b64decode(imgstr), name=f'{uuid.uuid4()}.{ext}')
-
         event = Event.objects.get(pk=pk)
+        # Similar to if/else statement, if an image is not updated, it will pass and save without issues
+        try:
+            format, imgstr = request.data["event_image_url"].split(';base64,')
+            ext = format.split('/')[-1]
+            data = ContentFile(base64.b64decode(imgstr), name=f'{uuid.uuid4()}.{ext}')
+            event.event_image_url = data #matches above
+        except:
+            pass
+        
         activity_level = ActivityLevel.objects.get(pk=request.data['activity_level'])
         event.name = request.data['name']
         event.location = request.data['location']
@@ -97,7 +96,7 @@ class EventView(ViewSet):
         event.host = request.data['host']
         event.description = request.data['description']
         event.price = request.data['price']
-        event.event_image_url = data #matches above
+        
         event.activity_level = activity_level
 
         # Save information
@@ -117,7 +116,7 @@ class EventView(ViewSet):
     def signup(self, request, pk):
         """Post request for a user to sign up for an event"""
    
-        meditator = Meditator.objects.get(pk=pk)
+        meditator = request.auth.user
         event = Event.objects.get(pk=pk)
         event.attendee.add(meditator)
         return Response({'message': 'Meditator added'}, status=status.HTTP_201_CREATED)
@@ -129,7 +128,7 @@ class EventView(ViewSet):
     def leave(self, request, pk):
         """Delete request for a user to leave an event"""
    
-        meditator = Meditator.objects.get(pk=pk)
+        meditator = request.auth.user
         event = Event.objects.get(pk=pk)
         # Removes user
         event.attendee.remove(meditator)

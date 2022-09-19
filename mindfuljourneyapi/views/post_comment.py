@@ -9,17 +9,17 @@ import datetime
 class PostCommentView(ViewSet):
     """Post Comment View"""
 
-    # def list(self, request): 
-    #     """Handles GET requests to get all comments
-    #     Returns:
-    #         Response -- JSON serialized list of post comments"""
+    def list(self, request): 
+        """Handles GET requests to get all comments
+        Returns:
+            Response -- JSON serialized list of post comments"""
     
-    #     postComments = PostComment.objects.all().order_by("created_on")
-    #     post = request.query_params.get('post', None)
-    #     if post is not None:
-    #         postComments = postComments.filter(post_id = post)
-    #     serializer = PostCommentSerializer(postComments, many = True)
-    #     return Response(serializer.data)
+        postComments = PostComment.objects.all().order_by("created_on")
+        post = request.query_params.get('post', None)
+        if post is not None:
+            postComments = postComments.filter(post_id = post)
+        serializer = PostCommentSerializer(postComments, many = True)
+        return Response(serializer.data)
     
     def retrieve(self, request, pk):
         """Handle GET requests for single post comment
