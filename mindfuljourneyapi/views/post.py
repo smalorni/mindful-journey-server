@@ -19,7 +19,7 @@ class PostView(ViewSet):
         Returns:
             Response -- JSON serialized list of posts
         """
-        posts = Post.objects.all()
+        posts = Post.objects.all().order_by("created_on")
         # Filter through post for specific category
         category = request.query_params.get('category', None)
         user = self.request.query_params.get('user', None)
@@ -28,8 +28,6 @@ class PostView(ViewSet):
             posts = posts.filter(category_id=category)
         if user is not None:
             posts = posts.filter(user_id=user)
-        # Add tags - stretch goals
-        # Add user - maybe?
 
         serializer = PostSerializer(posts, many = True)
         return Response(serializer.data)
@@ -41,7 +39,6 @@ class PostView(ViewSet):
         """
         try: 
             post = Post.objects.get(pk=pk)
-            meditator = Meditator.objects.get(user=request.auth.user) #user
             serializer = PostSerializer(post)
             return Response(serializer.data)
         except Post.DoesNotExist as ex: 
@@ -53,7 +50,6 @@ class PostView(ViewSet):
         Returns:
             Response -- JSON serialized post instance
         """
-        meditator = Meditator.objects.get(user=request.auth.user)
         category = PostCategory.objects.get(pk=request.data['category'])
     
     # Add header image for post here
@@ -62,7 +58,7 @@ class PostView(ViewSet):
         data = ContentFile(base64.b64decode(imgstr), name=f'{uuid.uuid4()}.{ext}')
 
         post = Post.objects.create(
-            meditator = meditator,
+            meditator = request.auth.user,
             category = category,
             title = request.data['title'],
             content = request.data['content'],
@@ -79,18 +75,22 @@ class PostView(ViewSet):
         """Handle PUT requests for a post
         Returns:
             Response -- 204 status code"""
-
-        # Need to include info for url
-        format, imgstr = request.data["post_image_url"].split(';base64,')
-        ext = format.split('/')[-1]
-        data = ContentFile(base64.b64decode(imgstr), name=f'{uuid.uuid4()}.{ext}')
-
         post = Post.objects.get(pk=pk)
+        # Need to include info for url
+        # Similar to if/else statement, if an image is not updated, it will pass and save without issues
+        try:
+            format, imgstr = request.data["post_image_url"].split(';base64,')
+            ext = format.split('/')[-1]
+            data = ContentFile(base64.b64decode(imgstr), name=f'{uuid.uuid4()}.{ext}')
+            post.post_image_url = data
+        except:
+            pass
+
         category = PostCategory.objects.get(pk=request.data['category'])
         post.category = category
         post.title = request.data['title']
         post.content = request.data['content']
-        post.post_image_url = data
+        
         post.created_on = datetime.date.today()
 
         # Save information
