@@ -90,7 +90,7 @@ class PostView(ViewSet):
         post.category = category
         post.title = request.data['title']
         post.content = request.data['content']
-        
+        #*****************************
         post.created_on = datetime.date.today()
 
         # Save information

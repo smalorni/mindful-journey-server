@@ -14,4 +14,4 @@ class Post(models.Model):
     
     @property
     def readable_created_on(self):
-        return self.created_on.strftime('%m/%d/%y')
+        return self.created_on.strftime('%m/%d/%Y')
