@@ -19,7 +19,7 @@ class PostView(ViewSet):
         Returns:
             Response -- JSON serialized list of posts
         """
-        posts = Post.objects.all().order_by("created_on")
+        posts = Post.objects.all().order_by('-created_on')
         # Filter through post for specific category
         category = request.query_params.get('category', None)
         user = self.request.query_params.get('user', None)
