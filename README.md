@@ -1,4 +1,4 @@
-For details about Mindful Journey, please click here <a href="https://github.com/smalorni/mindful-journey-client" target="_blank">mindful-journey-server</a> 
+For details about Mindful Journey, please click here <a href="https://github.com/smalorni/mindful-journey-client" target="_blank">mindful-journey-client</a> 
 
 ## Installation for Server Side Only
 1. Clone the repository: `git clone git@github.com:smalorni/mindful-journey-server.git`
