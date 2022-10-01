@@ -1,5 +1,3 @@
-<img src="public/Images/Journey-Logo.png" width="200" height="200"/>
-
 For details about Mindful Journey, please click here <a href="https://github.com/smalorni/mindful-journey-client" target="_blank">mindful-journey-server</a> 
 
 ## Installation for Server Side Only
