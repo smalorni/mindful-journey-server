@@ -6,6 +6,7 @@ from mindfuljourneyapi.models import Meditator, Event, ActivityLevel
 import uuid, base64
 from django.core.files.base import ContentFile
 from rest_framework.decorators import action
+from django.db.models import Q
 
 # Goal: view list of events, create a new event, update and delete an event
 # Create class
@@ -20,8 +21,18 @@ class EventView(ViewSet):
         events = Event.objects.all().order_by("start_date")
         user = request.auth.user
 
+        # add search feature for event
+        search = self.request.query_params.get('search', None)
+
         for event in events:
             event.attending = user in event.attendee.all()
+        
+        #search by location, description
+        if search is not None:
+            events = events.filter(
+                Q(location__contains=search) |
+                Q(description__contains=search)
+            )
 
         serializer = EventSerializer(events, many = True)
         return Response(serializer.data)
