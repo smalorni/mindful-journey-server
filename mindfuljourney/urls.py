@@ -21,17 +21,14 @@ from django.conf.urls.static import static
 from django.conf.urls import include
 from rest_framework import routers
 from django.conf import settings
-from mindfuljourneyapi.views import PostView, register_user, login_user, EventView, MeditatorProfileView, TagView, PostCategoryView, PostCommentView, EventCommentView
+from mindfuljourneyapi.views import PostView, register_user, login_user, EventView, PostCategoryView, PostCommentView
 
 router = routers.DefaultRouter(trailing_slash=False)
 # route for post
 router.register(r'posts', PostView, 'post')
 router.register(r'events', EventView, 'event')
-router.register(r'profiles', MeditatorProfileView, 'profile')
-router.register(r'tags', TagView, 'tag')
 router.register(r'categories', PostCategoryView, 'category')
 router.register(r'postComments', PostCommentView, 'postComment')
-router.register(r'eventComments', EventCommentView, 'eventComment')
 
 
 urlpatterns = [
