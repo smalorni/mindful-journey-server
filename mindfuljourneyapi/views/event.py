@@ -77,8 +77,6 @@ class EventView(ViewSet):
             activity_level = activity_level
         )
 
-        # Add tags and reactions here later
-
         serializer = EventSerializer(event)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 

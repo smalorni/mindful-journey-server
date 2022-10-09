@@ -28,7 +28,7 @@ class PostView(ViewSet):
             posts = posts.filter(category_id=category)
         if user is not None:
             posts = posts.filter(user_id=user)
-
+        
         serializer = PostSerializer(posts, many = True)
         return Response(serializer.data)
 
@@ -66,7 +66,6 @@ class PostView(ViewSet):
             created_on = datetime.date.today()
         )
 
-        # Add tags and reactions here later
         serializer = PostSerializer(post)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -90,7 +89,6 @@ class PostView(ViewSet):
         post.category = category
         post.title = request.data['title']
         post.content = request.data['content']
-        #*****************************
         post.created_on = datetime.date.today()
 
         # Save information

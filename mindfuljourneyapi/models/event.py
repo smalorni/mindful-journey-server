@@ -17,7 +17,6 @@ class Event(models.Model):
     meditator = models.ForeignKey(User, on_delete=models.CASCADE, related_name="HostEvent")
     # Join tables added - many to many relationships, what table it goes through
     attendee = models.ManyToManyField(User, through="EventAttendee")
-    tag = models.ManyToManyField("Tag", through="EventTag")
 
     @property
     def readable_start_date(self):
